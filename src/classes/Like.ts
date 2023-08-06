@@ -11,4 +11,5 @@ export class Like extends Base {
     public get user(): User {
         return this._user;
     }
+    
 }

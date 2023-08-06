@@ -1,5 +1,6 @@
 import {Base} from './Base';
 import {Like} from './Like';
+import {User} from './User';
 
 type TypeTweet = 'normal'|'reply'
 
@@ -7,7 +8,7 @@ export class Tweet extends Base {
     private _replies:Tweet[];
     private _likes:Like[];
 
-    constructor(private _content: string, private _type: TypeTweet){
+    constructor(private _content: string, private _type: TypeTweet, private _username: string){
         super()
 
         this._replies = [];
@@ -27,7 +28,8 @@ export class Tweet extends Base {
 
         return {
             content: this._content,
-            likes: this._likes
+            likes: this._likes,
+            username: this._username
         }
     }
 
@@ -36,4 +38,9 @@ export class Tweet extends Base {
         const replies = this._replies.map((reply) => reply.show());
         return replies;
     }
+
+    public getUser(): string {
+        return this._username;
+    }
+
 }
