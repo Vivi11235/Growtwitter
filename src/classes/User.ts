@@ -32,47 +32,37 @@ export class User extends Base {
     }
 
     showFeed(){
-        this.showTweets();
+        //this.showTweets();
+        const userTweets = this.showTweets();
+        console.log(userTweets); 
+
         this._following.forEach((user)=> console.log(`${user.showTweets()}`));
     }
 
     showTweets(){
-        this._tweets.forEach((tweet) => {
-            if(!tweet.show().likes.length){
-                console.log(`@${this._username}:${tweet.show().content}\n`)
-                if(tweet.showReplies().length){
-                    tweet.showReplies().forEach((reply) => {
-                        console.log(`>@${reply.username}: ${reply.content}`);
-                      });
-                }else{
-                    return
-                }
-                
-                return
-            }
 
-            if(tweet.show().likes.length===1){
-                console.log(`@${this._username}:${tweet.show().content}\n[@${tweet.show().likes[0].user._username} likes this!]`)
-                if(tweet.showReplies().length){
-                    tweet.showReplies().forEach((reply) => {
-                        console.log(`>@${reply.username}: ${reply.content}`);
-                      });
-                }else{
-                    return
-                }
+        let result = '';
+    this._tweets.forEach((tweet) => {
+        result += `@${tweet.getUser()}: ${tweet.show().content}\n`;
 
-                return
-            }
+        if (tweet.show().likes.length === 0) {
+            result += "[0 likes]\n";
+        } else if (tweet.show().likes.length === 1) {
+            result += `[${tweet.show().likes[0].user.getUsername()} likes this!]\n`;
+        } else {
+            result += `[${tweet.show().likes[0].user.getUsername()} and others ${tweet.show().likes.length - 1} like this!]\n`;
+        }
 
-            console.log(`@${this._username}:${tweet.show().content}\n[@${tweet.show().likes[0].user._username} and others ${tweet.show().likes.length-1} like this!]`)
-            if(tweet.showReplies().length){
-                tweet.showReplies().forEach((reply) => {
-                    console.log(`>@${reply.username}: ${reply.content}`);
-                  });
-            }else{
-                return
-            }
-        })
+        const replies = tweet.showReplies();
+        replies.forEach((reply) => {
+            result += `>@${reply.username}: ${reply.content}\n`;
+        });
+
+        result += '\n'; // Espaço vazio para separar os tweets
+    });
+
+    return result;
+        
     }
 
     public getUsername(): string {

@@ -25,8 +25,12 @@ console.log(replies)
 const like1 = new Like(User3);
 
  const tweet4 = new Tweet('Amo frio!', 'normal', 'carlos1234');
- User3.sendTweet(tweet4);
+ User2.sendTweet(tweet4);
  const tweet5 = new Tweet('Vou viajar amanhã.', 'normal', 'carlos1234');
- User3.sendTweet(tweet5);
+ User2.sendTweet(tweet5);
 
 User3.showFeed();
+
+User2.follow(User3);
+
+User2.showFeed();
